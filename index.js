@@ -12,8 +12,14 @@ import crypto from 'crypto';
 import config from "./config.js";
 import proxy from "express-http-proxy";
 import bodyParser from "body-parser";
+import compression from 'compression';
 
 const app = express();
+app.use(compression()); 
+
+app.get('/ping', (req, res) => {
+  res.status(200).send('Proxy is awake!');
+});
 
 app.use("/image/", proxy("https://images.crazygames.com", {proxyReqPathResolver: req => {
   return(req.originalUrl.slice(6));
